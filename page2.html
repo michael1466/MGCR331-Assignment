@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Real Estate Data - Buildings by Neighborhood</title>
+  <link rel="stylesheet" href="style2.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  
+  <!-- Header Section -->
+  <header class="d-flex justify-content-between align-items-center p-3 text-white">
+    <div class="logo">LOGO</div>
+    <nav>
+      <ul class="nav">
+        <li class="nav-item"><a class="nav-link text-white" href="https://www.mcgill.ca/study/2024-2025/courses/mgcr-331">Home</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="index.html">Page 1</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="page2.html">Page 2</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="page3.html">Page 3</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <div class="container d-flex mt-4">
+    <!-- Sidebar -->
+    <aside class="p-3" style="width: 250px;">
+      <h2>Related Reports</h2>
+      <ul class="list-unstyled">
+        <li><a href="#">Market Report 2024</a></li>
+        <li><a href="#">Price Trends</a></li>
+        <li><a href="#">Investment Guide</a></li>
+      </ul>
+    </aside>
+    
+    <!-- Main Content Section -->
+    <main class="flex-grow-1 p-4 shadow">
+      <h1>Buildings by Neighborhood & Interior Design Style</h1>
+      <label for="designStyle" style="color:white">Select Interior Design Style:</label>
+      <select id="designStyle" class="form-select w-25 mb-4">
+        <option value="Modern">Modern</option>
+        <option value="Classic">Classic</option>
+        <option value="Industrial">Industrial</option>
+        <option value="Minimalist">Minimalist</option>
+      </select>
+      
+      <div class="chart mt-4">
+        <canvas id="conditionChart"></canvas>
+      </div>
+      
+    </main>
+  </div>
+  
+  <!-- Footer Section -->
+  <footer class="text-center p-3 bg-dark mt-4">
+    <p>&copy; 2025 Real Estate Data Dashboard</p>
+  </footer>
+
+  <!-- Chart.js Script for Pie Chart -->
+  <script>
+    // Sample data: For each interior design style, provide building counts for each neighborhood.
+    // Each neighborhood has counts for "new" and "renovated" buildings.
+    const buildingData = {
+      'Modern': {
+        'Camden': { new: 13, renovated: 9 },
+        'Notting Hill': { new: 10, renovated: 4 },
+        'Westminster': { new: 4, renovated: 9 },
+        'Soho': { new: 5, renovated: 6 },
+        'Kensington': { new: 12, renovated: 10 },
+        'Marylebone': { new: 10, renovated: 11 },
+        'Islington': { new: 5, renovated: 7 },
+        'Shoreditch': { new: 8, renovated: 6 },
+        'Greenwich': { new: 8, renovated: 7 }, 
+        'Chelsea': { new: 8, renovated: 12 }
+
+      },
+      'Classic': {
+        'Camden': { new: 10, renovated: 12 },
+        'Notting Hill': { new: 6, renovated: 10 },
+        'Westminster': { new: 12, renovated: 16 },
+        'Soho': { new: 2, renovated: 10 },
+        'Kensington': { new: 14, renovated: 10 },
+        'Marylebone': { new: 7, renovated: 8 },
+        'Islington': { new: 10, renovated: 5 },
+        'Shoreditch': { new: 6, renovated: 10 },
+        'Greenwich': { new: 12, renovated: 7 }, 
+        'Chelsea': { new: 9, renovated: 5 }
+      },
+      'Industrial': {
+        'Camden': { new: 14, renovated: 7 },
+        'Notting Hill': { new: 11, renovated: 5 },
+        'Westminster': { new: 5, renovated: 10 },
+        'Soho': { new: 7, renovated: 11 },
+        'Kensington': { new: 6, renovated: 9 },
+        'Marylebone': { new: 19, renovated: 8 },
+        'Islington': { new: 12, renovated: 13 },
+        'Shoreditch': { new: 8, renovated: 10 },
+        'Greenwich': { new: 8, renovated: 8 }, 
+        'Chelsea': { new: 5, renovated: 8 }
+      },
+      'Minimalist': {
+        'Camden': { new: 3, renovated: 6 },
+        'Notting Hill': { new: 8, renovated: 4 },
+        'Westminster': { new: 8, renovated: 6 },
+        'Soho': { new: 13, renovated: 11 },
+        'Kensington': { new: 6, renovated: 10 },
+        'Marylebone': { new: 4, renovated: 4 },
+        'Islington': { new: 10, renovated: 10 },
+        'Shoreditch': { new: 7, renovated: 5 },
+        'Greenwich': { new: 2, renovated: 11 }, 
+        'Chelsea': { new: 5, renovated: 11 }
+      }
+    };
+
+    // Function to generate the labels and data arrays for the selected design style.
+    function getChartData(style) {
+      const neighborhoods = buildingData[style];
+      const labels = [];
+      const dataValues = [];
+      for (const [neighborhood, counts] of Object.entries(neighborhoods)) {
+        labels.push(`${neighborhood} - New`);
+        dataValues.push(counts.new);
+        labels.push(`${neighborhood} - Renovated`);
+        dataValues.push(counts.renovated);
+      }
+      return { labels, dataValues };
+    }
+    
+    // Get the canvas context for the pie chart.
+    const ctx = document.getElementById('conditionChart').getContext('2d');
+    
+    // Initialize the pie chart with default data (for "Modern").
+    let initialData = getChartData('Modern');
+    let conditionChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: initialData.labels,
+        datasets: [{
+            label: 'Number of Buildings',
+            data: initialData.dataValues,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.6)',   // Slice 1
+                'rgba(255, 99, 132, 0.4)',   // Slice 2
+                'rgba(54, 162, 235, 0.6)',   // Slice 3
+                'rgba(54, 162, 235, 0.4)',   // Slice 4
+                'rgba(255, 206, 86, 0.6)',  // Slice 5
+                'rgba(255, 206, 86, 0.4)',   // Slice 6
+                'rgba(75, 192, 192, 0.6)',  // Slice 7
+                'rgba(75, 192, 192, 0.4)',
+                'rgba(153, 102, 255, 0.6)',
+                'rgba(153, 102, 255, 0.4)',
+                'rgba(255, 159, 64, 0.6)',
+                'rgba(255, 159, 64, 0.4)',
+                'rgba(200, 200, 100, 0.6)',
+                'rgba(200, 200, 100, 0.4)',
+                'rgba(100, 200, 200, 0.6)',
+                'rgba(100, 200, 200, 0.4)',
+                'rgba(180, 100, 200, 0.6)',
+                'rgba(180, 100, 200, 0.4)',
+                'rgba(120, 220, 130, 0.6)',
+                'rgba(120, 220, 130, 0.4)'
+
+
+
+
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(200, 200, 100, 1)',
+                'rgba(200, 200, 100, 1)',
+                'rgba(100, 200, 200, 1)',
+                'rgba(100, 200, 200, 1)',
+                'rgba(180, 100, 200, 1)',
+                'rgba(180, 100, 200, 1)',
+                'rgba(120, 220, 130, 1)',
+                'rgba(120, 220, 130, 1)'
+
+
+
+
+            ],
+            borderWidth: 1
+          // Chart.js assigns default colors.
+        }]
+      },
+      options: {
+        responsive: true
+      }
+    });
+
+    // Update the chart when a new interior design style is selected.
+    document.getElementById('designStyle').addEventListener('change', function() {
+      const selectedStyle = this.value;
+      const newData = getChartData(selectedStyle);
+      conditionChart.data.labels = newData.labels;
+      conditionChart.data.datasets[0].data = newData.dataValues;
+      conditionChart.update();
+    });
+  </script>
+  
+</body>
+</html>

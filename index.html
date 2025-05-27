@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Estate Data</title>
+    <link rel="stylesheet" href="style1.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    
+    <!-- Header Section -->
+    <header class="d-flex justify-content-between align-items-center p-3 text-white">
+        <div class="logo">LOGO</div>
+        <nav>
+            <ul class="nav">
+                <li class="nav-item"><a class="nav-link text-white" href="https://www.mcgill.ca/study/2024-2025/courses/mgcr-331">Home</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="index.html">Page 1</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="page2.html">Page 2</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="page3.html">Page 3</a></li>
+                <li class="nav-item"><a class="nav-link text-white" href="about.html">About</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <div class="container d-flex mt-4">
+        <!-- Sidebar -->
+        <aside class="p-3" style="width: 250px;">
+            <h2>Related Reports</h2>
+            <ul class="list-unstyled">
+                <li><a href="#">Market Report 2024</a></li>
+                <li><a href="#">Price Trends</a></li>
+                <li><a href="#">Investment Guide</a></li>
+            </ul>
+        </aside>
+        
+        <!-- Main Content Section -->
+        <main class="flex-grow-1 p-4 shadow">
+            <h1>Average Price Per Neighbourhood (by Apartment Style)</h1>
+            <label for="apartmentType" style="color:white">Select Apartment Type:</label>
+            <select id="apartmentType" class="form-select w-25">
+                <option value="studio">Studio</option>
+                <option value="1-bedroom">1 Bedroom</option>
+                <option value="2-bedroom">2 Bedroom</option>
+                <option value="3-bedroom">3 Bedroom</option>
+            </select>
+            
+            <div class="chart mt-4">
+                <canvas id="priceChart"></canvas>
+            </div>
+            
+            <div class="data-table p-4 mt-4">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Neighbourhood</th>
+                            <th>Studio</th>
+                            <th>1-Bedroom</th>
+                            <th>2-Bedroom</th>
+                            <th>3-Bedroom</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Neighbourhood A</td>
+                            <td>$500,000</td>
+                            <td>$600,000</td>
+                            <td>$700,000</td>
+                            <td>$800,000</td>
+                        </tr>
+                        <tr>
+                            <td>Neighbourhood B</td>
+                            <td>$450,000</td>
+                            <td>$550,000</td>
+                            <td>$650,000</td>
+                            <td>$750,000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="summary text-center text-black p-3 mt-4">
+                Most Expensive Neighbourhood: Camden
+            </div>
+        </main>
+    </div>
+    
+    <!-- Footer Section -->
+    <footer class="text-center p-3 bg-dark mt-4">
+        <p>&copy; 2025 Real Estate Data Dashboard</p>
+    </footer>
+
+    <!-- Chart.js Script for Price Chart -->
+    <script>
+        // Sample data for different apartment styles
+        const priceData = {
+            'studio': [500000, 450000, 480000, 510000],
+            '1-bedroom': [600000, 550000, 580000, 620000],
+            '2-bedroom': [700000, 650000, 690000, 730000],
+            '3-bedroom': [800000, 750000, 780000, 820000]
+        };
+    
+        // Get the canvas context
+        var ctx = document.getElementById('priceChart').getContext('2d');
+    
+        // Create the initial Chart.js bar chart
+        var priceChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Neighbourhood A', 'Neighbourhood B', 'Neighbourhood C', 'Neighbourhood D'],
+                datasets: [{
+                    label: 'Average Price',
+                    data: priceData['studio'], // Default dataset
+                    backgroundColor: 'rgba(47,102,144, 0.5)',
+                    borderColor: 'rgba(58,124,165, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    
+        // Function to update the chart when selecting a new apartment type
+        document.getElementById('apartmentType').addEventListener('change', function() {
+            var selectedType = this.value; // Get selected value
+            priceChart.data.datasets[0].data = priceData[selectedType]; // Update chart data
+            priceChart.update(); // Redraw chart
+        });
+    
+    </script>    
+    
+</body>
+</html>

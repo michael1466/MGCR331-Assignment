@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Real Estate Data - Buildings by Neighborhood (Plotly Version)</title>
+  
+  <!-- Same stylesheet as before -->
+  <link rel="stylesheet" href="style2.css" />
+
+  <!-- Bootstrap (optional) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+
+  <!-- (Optional) If your plot.html file doesn't include Plotly, you might need this line -->
+  <!-- <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> -->
+</head>
+<body>
+  <!-- Header Section -->
+  <header class="d-flex justify-content-between align-items-center p-3 text-white">
+    <div class="logo">LOGO</div>
+    <nav>
+      <ul class="nav">
+        <li class="nav-item"><a class="nav-link text-white" href="https://www.mcgill.ca/study/2024-2025/courses/mgcr-331">Home</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="index.html">Page 1</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="page2_plotly.html">Page 2</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="page3.html">Page 3</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="container d-flex mt-4">
+    <!-- Sidebar -->
+    <aside class="p-3">
+      <h2>Related Reports</h2>
+      <ul class="list-unstyled">
+        <li><a href="#">Market Report 2024</a></li>
+        <li><a href="#">Price Trends</a></li>
+        <li><a href="#">Investment Guide</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content Section -->
+    <main class="flex-grow-1 p-4 shadow">
+      <h1>Days on the Market by Neighborhood</h1>
+      
+      <!-- Embed the interactive plot from plot.html using an iframe -->
+      <iframe src="plot.html" width="100%" height="600px" style="border: none;"></iframe>
+      
+    </main>
+  </div>
+
+  <!-- Footer Section -->
+  <footer class="text-center p-3 bg-dark mt-4">
+    <p>&copy; 2025 Real Estate Data Dashboard</p>
+  </footer>
+</body>
+</html>

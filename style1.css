@@ -1,0 +1,140 @@
+/* General Page Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #D9DCD6 !important;
+}
+
+
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color:#2f6690;
+    padding: 20px;
+}
+
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+/* Bootstrap Styling for Layout */
+.container {
+    display: flex;
+    padding: 20px;
+}
+
+/* Sidebar */
+aside {
+    width: 250px;
+    background-color: #3A7CA5;
+    padding: 20px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative; /* Keeps it positioned independently */
+    left: -90px;
+    border-radius: 16px;
+}
+
+aside h2 {
+    font-size: 20px;
+    color: white;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+aside ul {
+    list-style: none;
+    padding: 0;
+}
+
+aside ul li {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+aside ul li a {
+    text-decoration: none;
+    color: white;
+    margin-left:10px;
+}
+
+/* Main Content */
+main {
+    flex-grow: 1;
+    padding: 20px;
+    background: linear-gradient(to bottom, #4186b1, #4B7692);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+}
+
+h1 {
+    font-size: 24px;
+    color: white !important;
+    text-align: center;
+}
+
+select {
+    padding: 5px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+
+.chart {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #D9DCD6;
+    text-align: center;
+    border-radius: 16px;
+}
+
+.data-table {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #D9DCD6;
+    border: 1px solid #ccc;
+    text-align: center;
+    border-radius: 16px;
+}
+
+.summary {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #D9DCD6;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    border-radius: 16px;
+}
+
+/* Footer */
+footer {
+    background-color: #343a40;
+    color: #D3D3D3;
+    text-align: center;
+    padding: 15px;
+    margin-top: 20px;
+}
